@@ -82,29 +82,84 @@
     <h2>Rejestracja</h2>
 
     <input type="text" placeholder="Login">
-    <input type="email" placeholder="Email">
-    <input type="password" placeholder="Hasło">
+    <input 
+        type="email"
+          id="email"
+        placeholder="Email"
+        required
+    >
 
-    <button>Załóż konto</button>
+    <p id="error" style="color:red; display:none;">
+        Wpisz poprawny adres email
+    </p>
 
-    <div class="switch" onclick="showLogin()">
-      Powrót do logowania
+    <script>
+        const email = document.getElementById("email");
+        const error = document.getElementById("error");
+
+        email.addEventListener("input", function () {
+
+        if (email.validity.valid) {
+            error.style.display = "none";
+        } else {
+            error.style.display = "block";
+        }
+
+        });
+    </script>
+    <input 
+        type="password"
+        id="password"
+        placeholder="Hasło"
+        required
+    >
+
+    <p id="passError" style="color:red; display:none;">
+        Hasło musi mieć:
+        <br>• dużą literę
+        <br>• cyfrę
+        <br>• znak specjalny
+        <br>• minimum 8 znaków
+    </p>
+
+    <script>
+        const password = document.getElementById("password");
+        const passError = document.getElementById("passError");
+
+        password.addEventListener("input", function () {
+
+        const regex =
+            /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.#_-]).{8,}$/;
+
+        if (regex.test(password.value)) {
+            passError.style.display = "none";
+        } else {
+            passError.style.display = "block";
+        }
+
+        });
+    </script>
+
+        <button>Załóż konto</button>
+
+        <div class="switch" onclick="showLogin()">
+            Powrót do logowania
+        </div>
     </div>
-  </div>
 
-</div>
+    </div>
 
-<script>
-  function showRegister() {
-    document.getElementById("login").classList.add("hidden");
-    document.getElementById("register").classList.remove("hidden");
-  }
+    <script>
+        function showRegister() {
+            document.getElementById("login").classList.add("hidden");
+            document.getElementById("register").classList.remove("hidden");
+        }
 
-  function showLogin() {
-    document.getElementById("register").classList.add("hidden");
-    document.getElementById("login").classList.remove("hidden");
-  }
-</script>
+        function showLogin() {
+            document.getElementById("register").classList.add("hidden");
+            document.getElementById("login").classList.remove("hidden");
+        }
+    </script>
 
 </body>
 </html>
