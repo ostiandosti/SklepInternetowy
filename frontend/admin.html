@@ -57,40 +57,40 @@
 
 <div class="container">
 
-  <!-- LEWA STRONA - DODAWANIE -->
+  <!-- LEWA STRONA -->
   <div class="left">
 
     <h2>Dodaj produkt</h2>
 
     <input id="name" placeholder="Nazwa">
-
     <textarea id="description" placeholder="Opis"></textarea>
-
     <input id="price" type="number" placeholder="Cena">
-
     <input id="quantity" type="number" placeholder="Ilość">
-
     <input id="image" placeholder="URL obrazka">
 
-    <button onclick="addProduct()">
-      Dodaj
-    </button>
+    <button onclick="addProduct()">Dodaj</button>
 
   </div>
 
-  <!-- PRAWA STRONA - LISTA -->
+  <!-- PRAWA STRONA -->
   <div class="right">
 
     <h2>Produkty</h2>
-
     <div id="list"></div>
 
   </div>
 
 </div>
 
-<!-- PODPIĘCIE JS -->
+<!-- JS -->
 <script src="script.js"></script>
+
+<!-- 🔥 KLUCZOWA POPRAWKA -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    loadProducts();
+  });
+</script>
 
 </body>
 </html>
