@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>Panel produktów</title>
+
+<style>
+  body {
+    margin: 0;
+    font-family: Arial;
+  }
+
+  .container {
+    display: flex;
+    height: 100vh;
+  }
+
+  /* LEWA STRONA */
+  .left {
+    width: 50%;
+    padding: 20px;
+    background: #f4f4f4;
+    overflow-y: auto;
+  }
+
+  /* PRAWA STRONA */
+  .right {
+    width: 50%;
+    padding: 20px;
+    overflow-y: auto;
+  }
+
+  input, textarea {
+    width: 90%;
+    padding: 8px;
+    margin: 5px 0;
+  }
+
+  button {
+    padding: 8px 12px;
+    margin-top: 5px;
+    cursor: pointer;
+  }
+
+  .product {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+
+  .product img {
+    width: 80px;
+    display: block;
+    margin-top: 5px;
+  }
+
+  .edit-input {
+    width: 100%;
+    margin: 3px 0;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- DODAWANIE -->
+  <div class="left">
+    <h2>Dodaj produkt</h2>
+
+    <input id="name" placeholder="Nazwa">
+    <textarea id="description" placeholder="Opis"></textarea>
+    <input id="price" type="number" placeholder="Cena">
+    <input id="quantity" type="number" placeholder="Ilość">
+    <input id="image" placeholder="URL obrazka">
+
+    <button onclick="addProduct()">Dodaj</button>
+  </div>
+
+  <!-- LISTA + EDYCJA -->
+  <div class="right">
+    <h2>Produkty</h2>
+    <div id="list"></div>
+  </div>
+
+</div>
+
+<script>
+let products = [];
+
+function addProduct() {
+  const p = {
+    id: Date.now(),
+    name: name.value,
+    description: description.value,
+    price: price.value,
+    quantity: quantity.value,
+    image_url: image.value
+  };
+
+  products.push(p);
+  render();
+
+  name.value = "";
+  description.value = "";
+  price.value = "";
+  quantity.value = "";
+  image.value = "";
+}
+
+function render() {
+  const list = document.getElementById("list");
+  list.innerHTML = "";
+
+  products.forEach(p => {
+    list.innerHTML += `
+      <div class="product">
+
+        <input class="edit-input"
+          value="${p.name}"
+          onchange="update(${p.id}, 'name', this.value)"
+        >
+
+        <textarea class="edit-input"
+          onchange="update(${p.id}, 'description', this.value)"
+        >${p.description}</textarea>
+
+        <input class="edit-input"
+          type="number"
+          value="${p.price}"
+          onchange="update(${p.id}, 'price', this.value)"
+        >
+
+        <input class="edit-input"
+          type="number"
+          value="${p.quantity}"
+          onchange="update(${p.id}, 'quantity', this.value)"
+        >
+
+        <input class="edit-input"
+          value="${p.image_url}"
+          onchange="update(${p.id}, 'image_url', this.value)"
+        >
+
+        <img src="${p.image_url}">
+
+      </div>
+    `;
+  });
+}
+
+function update(id, field, value) {
+  const product = products.find(p => p.id === id);
+  product[field] = value;
+  render();
+}
+</script>
+
+</body>
+</html>
