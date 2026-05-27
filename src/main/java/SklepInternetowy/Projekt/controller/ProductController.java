@@ -16,7 +16,7 @@ public class ProductController {
     private ProductRep productRep;
 
     // WYŚWIETL WSZYSTKIE PRODUKTY
-    @GetMapping
+    @GetMapping("/get")
     public List<ProductEnt> getAllProducts() {
         return productRep.findAll();
     }
