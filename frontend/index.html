@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Logowanie i Rejestracja</title>
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #f2f2f2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  .box {
+    background: white;
+    padding: 25px;
+    width: 320px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+
+  input {
+    width: 80%; /* krótsze pola */
+    padding: 10px;
+    margin: 8px auto;
+    display: block;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  button {
+    width: 85%;
+    padding: 10px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 5px;
+    background: #007bff;
+    color: white;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background: #0056b3;
+  }
+
+  .switch {
+    margin-top: 15px;
+    color: blue;
+    cursor: pointer;
+  }
+
+  .hidden {
+    display: none;
+  }
+</style>
+</head>
+<body>
+
+<div class="box">
+
+  <!-- LOGOWANIE -->
+  <div id="login">
+    <h2>Logowanie</h2>
+
+    <input type="text" placeholder="Login">
+    <input type="password" placeholder="Hasło">
+
+    <button>Zaloguj</button>
+
+    <div class="switch" onclick="showRegister()">
+      Rejestracja
+    </div>
+  </div>
+
+  <!-- REJESTRACJA -->
+  <div id="register" class="hidden">
+    <h2>Rejestracja</h2>
+
+    <input type="text" placeholder="Login">
+    <input 
+        type="email"
+          id="email"
+        placeholder="Email"
+        required
+    >
+
+    <p id="error" style="color:red; display:none;">
+        Wpisz poprawny adres email
+    </p>
+
+    <script>
+        const email = document.getElementById("email");
+        const error = document.getElementById("error");
+
+        email.addEventListener("input", function () {
+
+        if (email.validity.valid) {
+            error.style.display = "none";
+        } else {
+            error.style.display = "block";
+        }
+
+        });
+    </script>
+    <input 
+        type="password"
+        id="password"
+        placeholder="Hasło"
+        required
+    >
+
+    <p id="passError" style="color:red; display:none;">
+        Hasło musi mieć:
+        <br>• dużą literę
+        <br>• cyfrę
+        <br>• znak specjalny
+        <br>• minimum 8 znaków
+    </p>
+
+    <script>
+        const password = document.getElementById("password");
+        const passError = document.getElementById("passError");
+
+        password.addEventListener("input", function () {
+
+        const regex =
+            /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.#_-]).{8,}$/;
+
+        if (regex.test(password.value)) {
+            passError.style.display = "none";
+        } else {
+            passError.style.display = "block";
+        }
+
+        });
+    </script>
+
+        <button>Załóż konto</button>
+
+        <div class="switch" onclick="showLogin()">
+            Powrót do logowania
+        </div>
+    </div>
+
+    </div>
+
+    <script>
+        function showRegister() {
+            document.getElementById("login").classList.add("hidden");
+            document.getElementById("register").classList.remove("hidden");
+        }
+
+        function showLogin() {
+            document.getElementById("register").classList.add("hidden");
+            document.getElementById("login").classList.remove("hidden");
+        }
+    </script>
+
+</body>
+</html>
