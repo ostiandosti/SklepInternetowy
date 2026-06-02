@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Koszyk</title>
+    <link rel="stylesheet" href="css/cart.css">
+</head>
+<body>
+
+<div class="container">
+
+    <h1>Twój koszyk</h1>
+
+    <div class="cart">
+
+        <div class="cart-items">
+
+            <div class="item" data-price="299.99">
+                <img src="https://via.placeholder.com/120" alt="Produkt">
+
+                <div class="item-info">
+                    <h3>Słuchawki bezprzewodowe</h3>
+                    <p class="price">299,99 zł</p>
+                </div>
+
+                <div class="quantity">
+                    <button class="minus">−</button>
+                    <span class="count">1</span>
+                    <button class="plus">+</button>
+                </div>
+
+                <button class="remove">Usuń</button>
+            </div>
+
+            <div class="item" data-price="199.99">
+                <img src="https://via.placeholder.com/120" alt="Produkt">
+
+                <div class="item-info">
+                    <h3>Klawiatura RGB</h3>
+                    <p class="price">199,99 zł</p>
+                </div>
+
+                <div class="quantity">
+                    <button class="minus">−</button>
+                    <span class="count">2</span>
+                    <button class="plus">+</button>
+                </div>
+
+                <button class="remove">Usuń</button>
+            </div>
+
+            <div class="item" data-price="149.99">
+                <img src="https://via.placeholder.com/120" alt="Produkt">
+
+                <div class="item-info">
+                    <h3>Mysz gamingowa</h3>
+                    <p class="price">149,99 zł</p>
+                </div>
+
+                <div class="quantity">
+                    <button class="minus">−</button>
+                    <span class="count">1</span>
+                    <button class="plus">+</button>
+                </div>
+
+                <button class="remove">Usuń</button>
+            </div>
+
+        </div>
+
+        <aside class="summary">
+            <h2>Podsumowanie zamówienia</h2>
+
+            <div class="row">
+                <span>Liczba produktów</span>
+                <span id="items-count">4</span>
+            </div>
+
+            <div class="row">
+                <span>Dostawa</span>
+                <span>15,00 zł</span>
+            </div>
+
+            <hr>
+
+            <div class="row total">
+                <span>Razem</span>
+                <span id="total-price">864,96 zł</span>
+            </div>
+
+            <button class="checkout-btn">
+                Przejdź do płatności
+            </button>
+        </aside>
+
+    </div>
+
+</div>
+
+<script>
+function updateCart() {
+    let total = 0;
+    let itemsCount = 0;
+
+    document.querySelectorAll(".item").forEach(item => {
+        const price = parseFloat(item.dataset.price);
+        const qty = parseInt(item.querySelector(".count").textContent);
+
+        total += price * qty;
+        itemsCount += qty;
+    });
+
+    document.getElementById("total-price").textContent =
+        total.toFixed(2).replace(".", ",") + " zł";
+
+    document.getElementById("items-count").textContent = itemsCount;
+}
+
+document.querySelectorAll(".item").forEach(item => {
+
+    const plus = item.querySelector(".plus");
+    const minus = item.querySelector(".minus");
+    const remove = item.querySelector(".remove");
+    const count = item.querySelector(".count");
+
+    plus.addEventListener("click", () => {
+        count.textContent = parseInt(count.textContent) + 1;
+        updateCart();
+    });
+
+    minus.addEventListener("click", () => {
+        let qty = parseInt(count.textContent);
+
+        if (qty > 1) {
+            count.textContent = qty - 1;
+            updateCart();
+        }
+    });
+
+    remove.addEventListener("click", () => {
+        item.remove();
+        updateCart();
+    });
+});
+
+updateCart();
+</script>
+
+</body>
+</html>
+</html>
