@@ -18,26 +18,26 @@ public class CartItemController {
         this.cartItemRep = cartItemRep;
     }
 
-    // 🔵 CREATE
+    // CREATE
     @PostMapping
     public CartItemEnt createCartItem(@RequestBody CartItemEnt item) {
         return cartItemRep.save(item);
     }
 
-    // 🔵 READ ALL
+    // READ ALL
     @GetMapping
     public List<CartItemEnt> getAllItems() {
         return cartItemRep.findAll();
     }
 
-    // 🔵 READ BY ID
+    //READ BY ID
     @GetMapping("/{id}")
     public CartItemEnt getItemById(@PathVariable Long id) {
         return cartItemRep.findById(id)
                 .orElseThrow(() -> new RuntimeException("CartItem nie istnieje"));
     }
 
-    // 🔵 READ BY CART (ważne!)
+    //  READ BY CART (ważne!)
     @GetMapping("/cart/{cartId}")
     public List<CartItemEnt> getItemsByCart(@PathVariable Long cartId) {
 
@@ -47,7 +47,7 @@ public class CartItemController {
         return cartItemRep.findByCart(cart);
     }
 
-    // 🔵 UPDATE
+    // UPDATE
     @PutMapping("/{id}")
     public CartItemEnt updateItem(@PathVariable Long id,
                                   @RequestBody CartItemEnt updatedItem) {
@@ -63,7 +63,7 @@ public class CartItemController {
         return cartItemRep.save(item);
     }
 
-    // 🔵 DELETE
+    //  DELETE
     @DeleteMapping("/{id}")
     public String deleteItem(@PathVariable Long id) {
 
