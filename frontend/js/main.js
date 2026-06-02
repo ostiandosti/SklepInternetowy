@@ -13,18 +13,22 @@
                 <div class="product">
                     <h2>${product.name}</h2>
 
-                    <img src="${product.imageUrl}" alt="${product.name}">
+                    <img src="http://localhost:8080/pictures/${product.imageUrl}" alt="${product.name}">
 
                     <p><strong>Opis:</strong> ${product.description}</p>
 
                     <p><strong>Cena:</strong> ${product.price} zł</p>
 
-                    <p><strong>Ilość:</strong> ${product.quantity}</p>
-
-                    <p><strong>Kategoria:</strong> ${product.category}</p>
+                    <button class="add-to-cart" data-id="${product.id}">
+                    Dodaj do koszyka
+                    </button>
                 </div>
             `;
         });
     }
 
     loadProducts();
+
+    document.querySelector(".cart-btn").addEventListener("click", () => {
+    window.location.href = "cart.html";
+});
