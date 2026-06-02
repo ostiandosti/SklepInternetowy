@@ -1,28 +1,30 @@
-const email = document.getElementById("email");
-const error = document.getElementById("error");
 
-email.addEventListener("input", function () {
+document.getElementById("registerForm").addEventListener("submit", async function (e) {
+    e.preventDefault();
 
-    if (email.validity.valid) {
-        error.style.display = "none";
-    } else {
-        error.style.display = "block";
+    const username = document.getElementById("username").value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    try {
+        const response = await fetch("http://localhost:8080/api/auth/register", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                username: username,
+                email: email,
+                password: password
+            })
+        });
+
+        const data = await response.text();
+
+        document.getElementById("result").innerText = data;
+
+    } catch (error) {
+        console.error(error);
+        document.getElementById("result").innerText = "Błąd połączenia";
     }
-
-});
-
-const password = document.getElementById("password");
-const passError = document.getElementById("passError");
-
-password.addEventListener("input", function () {
-
-    const regex =
-        /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.#_-]).{8,}$/;
-
-    if (regex.test(password.value)) {
-        passError.style.display = "none";
-    } else {
-        passError.style.display = "block";
-    }
-
 });

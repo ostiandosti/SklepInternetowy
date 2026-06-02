@@ -10,43 +10,14 @@
 <body>
 
 <div class="box">
-
     <h2>Rejestracja</h2>
+<form id="registerForm">
+    <input type="text" id="username" placeholder="Nazwa użytkownika" required>
+    <input type="email" id="email" placeholder="Email" required>
+    <input type="password" id="password" placeholder="Hasło" required>
 
-    <input
-        type="text"
-        id="login"
-        placeholder="Login"
-    >
-
-    <input
-        type="email"
-        id="email"
-        placeholder="Email"
-        required
-    >
-
-    <p id="error" style="color:red; display:none;">
-        Wpisz poprawny adres email
-    </p>
-
-    <input
-        type="password"
-        id="password"
-        placeholder="Hasło"
-        required
-    >
-
-    <p id="passError" style="color:red; display:none;">
-        Hasło musi mieć:
-        <br>• dużą literę
-        <br>• cyfrę
-        <br>• znak specjalny
-        <br>• minimum 8 znaków
-    </p>
-
-    <button>Załóż konto</button>
-
+    <button type="submit">Zarejestruj</button>
+</form>
     <div class="switch">
         <span onclick="location.href='login.html'">
             Powrót do logowania
