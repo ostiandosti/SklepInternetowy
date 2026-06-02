@@ -2,95 +2,63 @@
 <html lang="pl">
 <head>
 <meta charset="UTF-8">
-<title>Panel Admina</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panel produktów</title>
 
-<style>
-  body {
-    margin: 0;
-    font-family: Arial;
-  }
-
-  .container {
-    display: flex;
-    height: 100vh;
-  }
-
-  .left {
-    width: 40%;
-    padding: 20px;
-    background: #f4f4f4;
-  }
-
-  .right {
-    width: 60%;
-    padding: 20px;
-    overflow-y: auto;
-  }
-
-  input, textarea {
-    width: 90%;
-    padding: 8px;
-    margin: 5px 0;
-  }
-
-  button {
-    padding: 8px 12px;
-    margin-top: 5px;
-    cursor: pointer;
-  }
-
-  .product {
-    border: 1px solid #ccc;
-    padding: 10px;
-    margin-bottom: 10px;
-  }
-
-  .product img {
-    width: 80px;
-    margin-top: 5px;
-  }
-</style>
-
+<link rel="stylesheet" href="css/admin.css">
 </head>
 
 <body>
 
 <div class="container">
 
-  <!-- LEWA STRONA -->
-  <div class="left">
+    <!-- DODAWANIE -->
+    <div class="left">
 
-    <h2>Dodaj produkt</h2>
+        <h2>Dodaj produkt</h2>
 
-    <input id="name" placeholder="Nazwa">
-    <textarea id="description" placeholder="Opis"></textarea>
-    <input id="price" type="number" placeholder="Cena">
-    <input id="quantity" type="number" placeholder="Ilość">
-    <input id="image" placeholder="URL obrazka">
+        <input id="name" placeholder="Nazwa">
 
-    <button onclick="addProduct()">Dodaj</button>
+        <textarea
+            id="description"
+            placeholder="Opis"
+        ></textarea>
 
-  </div>
+        <input
+            id="price"
+            type="number"
+            placeholder="Cena"
+        >
 
-  <!-- PRAWA STRONA -->
-  <div class="right">
+        <input
+            id="quantity"
+            type="number"
+            placeholder="Ilość"
+        >
 
-    <h2>Produkty</h2>
-    <div id="list"></div>
+        <input
+            id="image"
+            placeholder="URL obrazka"
+        >
 
-  </div>
+        <button onclick="addProduct()">
+            Dodaj
+        </button>
+
+    </div>
+
+    <!-- LISTA -->
+    <div class="right">
+
+        <h2>Produkty</h2>
+
+        <div id="list"></div>
+
+    </div>
 
 </div>
 
-<!-- JS -->
-<script src="script.js"></script>
-
-<!-- 🔥 KLUCZOWA POPRAWKA -->
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    loadProducts();
-  });
-</script>
+<script src="js/admin.js"></script>
 
 </body>
 </html>
