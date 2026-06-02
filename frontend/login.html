@@ -1,33 +1,31 @@
 <!DOCTYPE html>
 <html lang="pl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Logowanie</title>
-
     <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
-
-<div class="box">
-
-    <h2>Logowanie</h2>
-
-    <input type="text" id="login" placeholder="Login">
-
-    <input type="password" id="password" placeholder="Hasło">
-
-    <button>Zaloguj</button>
-
-    <div class="switch">
-        <span onclick="location.href='register.html'">
-            Rejestracja
-        </span>
+    <div class="box">
+        <h2>Logowanie</h2>
+        <form id="loginForm">
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Hasło" required>
+            <button type="submit">Zaloguj</button>
+        </form>
+        <div class="switch">
+            <span onclick="location.href='register.html'">
+                Rejestracja
+            </span>
+        </div>
+        <div id="result"></div>
     </div>
 
-</div>
-
-<script src="js/login.js"></script>
+    <script src="js/login.js"></script>
 
 </body>
+
 </html>
