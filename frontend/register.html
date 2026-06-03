@@ -9,12 +9,22 @@
 </head>
 <body>
 
+
+
 <div class="box">
     <h2>Rejestracja</h2>
 <form id="registerForm">
-    <input type="text" id="username" placeholder="Nazwa użytkownika" required>
-    <input type="email" id="email" placeholder="Email" required>
-    <input type="password" id="password" placeholder="Hasło" required>
+    <input type="text" id="username" placeholder="Nazwa użytkownika">
+
+    <div class="field-error" id="usernameError"></div>
+
+    <input type="email" id="email" placeholder="Email">
+
+    <div class="field-error" id="emailError"></div>
+
+    <input type="password" id="password" placeholder="Hasło">
+
+    <div class="field-error" id="passwordError"></div>
 
     <button type="submit">Zarejestruj</button>
 </form>
@@ -26,6 +36,7 @@
 
 </div>
 
+<script src="js/utils.js"></script>
 <script src="js/register.js"></script>
 
 </body>

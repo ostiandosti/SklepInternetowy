@@ -86,3 +86,15 @@ body {
 .add-to-cart:hover {
     background: #520b8a;
 }
+.auth-btn {
+    color: white;
+    text-decoration: none;
+    background: #333;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.auth-btn:hover {
+    background: #555;
+}

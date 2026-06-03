@@ -3,7 +3,10 @@ package SklepInternetowy.Projekt.controller;
 import SklepInternetowy.Projekt.dto.LoginRequest;
 import SklepInternetowy.Projekt.dto.RegisterRequest;
 import SklepInternetowy.Projekt.service.AuthService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -16,18 +19,28 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String register(
-            @RequestBody RegisterRequest request) {
-
-        authService.register(request);
-
-        return "Użytkownik utworzony";
+    public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
+        try {
+            authService.register(request);
+            return ResponseEntity.ok(Map.of("message", "Użytkownik utworzony"));
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest()
+                    .body(Map.of("error", e.getMessage()));
+        }
     }
 
     @PostMapping("/login")
-    public String login(
-            @RequestBody LoginRequest request) {
+    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+        try {
+            authService.login(request);
 
-        return "Endpoint logowania";
+            return ResponseEntity.ok(
+                    Map.of("message", "Zalogowano")
+            );
+
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest()
+                    .body(Map.of("error", e.getMessage()));
+        }
     }
 }
