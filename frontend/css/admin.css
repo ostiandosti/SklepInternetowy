@@ -1,6 +1,8 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
+    background: #f5f6fa;
+    color: #222;
 }
 
 .container {
@@ -8,49 +10,122 @@ body {
     height: 100vh;
 }
 
-/* LEWA STRONA */
-
+/* LEFT PANEL */
 .left {
-    width: 50%;
+    width: 30%;
     padding: 20px;
-    background: #f4f4f4;
-    overflow-y: auto;
+    background: #fff;
+    border-right: 1px solid #ddd;
 }
 
-/* PRAWA STRONA */
-
+/* RIGHT PANEL */
 .right {
-    width: 50%;
+    width: 70%;
     padding: 20px;
     overflow-y: auto;
 }
 
-input,
-textarea {
-    width: 90%;
-    padding: 8px;
-    margin: 5px 0;
+/* INPUTS (global) */
+input, textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 6px 0;
+    border-radius: 6px;
+    border: 1px solid #ccc;
 }
 
+/* BUTTON (global) */
 button {
-    padding: 8px 12px;
-    margin-top: 5px;
+    padding: 10px 15px;
+    border: none;
+    background: #6a0dad;
+    color: white;
+    border-radius: 6px;
     cursor: pointer;
 }
 
+button:hover {
+    background: #520b8a;
+}
+
+/* GRID */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px;
+}
+
+/* PRODUCT CARD */
 .product {
-    border: 1px solid #ccc;
-    padding: 10px;
-    margin-bottom: 10px;
+    background: #fff;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: 0.2s;
 }
 
+.product:hover {
+    transform: translateY(-3px);
+}
+
+/* PRODUCT INPUTS */
+.product input,
+.product textarea {
+    margin: 5px 0;
+    padding: 6px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+}
+
+/* PRODUCT IMAGE */
 .product img {
-    width: 80px;
-    display: block;
-    margin-top: 5px;
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-top: 8px;
 }
 
-.edit-input {
-    width: 100%;
-    margin: 3px 0;
+/* PRODUCT BUTTONS */
+.product button {
+    margin-top: 8px;
+    margin-right: 5px;
+    padding: 6px 10px;
+    border-radius: 6px;
+}
+
+/* RECENT BAR */
+#recentBar {
+    background: #222;
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    margin-bottom: 10px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    opacity: 0.9;
+}
+
+.recent-item {
+    background: #333;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: 0.2s;
+    white-space: nowrap;
+}
+
+.recent-item:hover {
+    background: #6a0dad;
+    transform: scale(1.05);
+}
+
+/* highlight */
+.product.highlight {
+    outline: 3px solid #6a0dad;
+    box-shadow: 0 0 20px rgba(106,13,173,0.5);
 }

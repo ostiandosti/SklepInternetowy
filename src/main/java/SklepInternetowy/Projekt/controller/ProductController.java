@@ -2,10 +2,10 @@ package SklepInternetowy.Projekt.controller;
 
 import SklepInternetowy.Projekt.entity.ProductEnt;
 import SklepInternetowy.Projekt.repository.ProductRep;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -15,19 +15,38 @@ public class ProductController {
     @Autowired
     private ProductRep productRep;
 
-    // WYŚWIETL WSZYSTKIE PRODUKTY
+    // GET ALL
     @GetMapping("/get")
     public List<ProductEnt> getAllProducts() {
         return productRep.findAll();
     }
 
-    // DODAJ PRODUKT
+    // ADD PRODUCT (ADMIN)
     @PostMapping
     public ProductEnt addProduct(@RequestBody ProductEnt product) {
+        product.setCreatedAt(LocalDateTime.now());
         return productRep.save(product);
     }
 
-    // USUŃ PRODUKT
+    // UPDATE PRODUCT (ADMIN)
+    @PutMapping("/{id}")
+    public ProductEnt updateProduct(@PathVariable Long id,
+                                    @RequestBody ProductEnt updated) {
+
+        ProductEnt product = productRep.findById(id)
+                .orElseThrow(() -> new RuntimeException("Produkt nie istnieje"));
+
+        product.setName(updated.getName());
+        product.setDescription(updated.getDescription());
+        product.setPrice(updated.getPrice());
+        product.setQuantity(updated.getQuantity());
+        product.setImageUrl(updated.getImageUrl());
+        product.setCategory(updated.getCategory());
+
+        return productRep.save(product);
+    }
+
+    // DELETE
     @DeleteMapping("/{id}")
     public String deleteProduct(@PathVariable Long id) {
 

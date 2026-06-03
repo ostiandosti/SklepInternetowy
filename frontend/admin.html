@@ -1,58 +1,41 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Panel produktów</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel admina</title>
 
-<link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="css/admin.css">
 </head>
 
 <body>
 
 <div class="container">
 
-    <!-- DODAWANIE -->
+    <!-- LEWA -->
     <div class="left">
 
         <h2>Dodaj produkt</h2>
 
         <input id="name" placeholder="Nazwa">
+        <textarea id="description" placeholder="Opis"></textarea>
 
-        <textarea
-            id="description"
-            placeholder="Opis"
-        ></textarea>
+        <input id="price" type="number" placeholder="Cena">
+        <input id="quantity" type="number" placeholder="Ilość">
+        <input id="image" placeholder="URL obrazka">
 
-        <input
-            id="price"
-            type="number"
-            placeholder="Cena"
-        >
-
-        <input
-            id="quantity"
-            type="number"
-            placeholder="Ilość"
-        >
-
-        <input
-            id="image"
-            placeholder="URL obrazka"
-        >
-
-        <button onclick="addProduct()">
-            Dodaj
-        </button>
+        <button onclick="addProduct()">Dodaj</button>
 
     </div>
 
-    <!-- LISTA -->
+    <!-- PRAWA -->
     <div class="right">
 
         <h2>Produkty</h2>
 
-        <div id="list"></div>
+        <div id="recentBar"></div>
+
+        <div id="list" class="grid"></div>
 
     </div>
 
