@@ -24,7 +24,7 @@ async function loadOrders() {
     }
 
     try {
-        const response = await fetch(API + "/orders/get", {
+        const response = await fetch(API + "/orders/history", {
             headers: authHeaders()
         });
 
@@ -48,7 +48,7 @@ async function loadOrders() {
                     </div>
 
                     <p><strong>Data:</strong> ${new Date(order.createdAt).toLocaleString()}</p>
-                    <p><strong>Kwota:</strong> ${order.total} zł</p>
+                    <p><strong>Kwota:</strong> ${order.totalPrice} zł</p>
                 </div>
             `;
         });

@@ -17,17 +17,16 @@ import org.slf4j.LoggerFactory;
 @RestController
 @RequestMapping("/orders")
 public class OrderController {
-    
-           
-    private static final Logger log =
-            LoggerFactory.getLogger(ProductController.class);
+
+    private static final Logger log
+            = LoggerFactory.getLogger(ProductController.class);
 
     @Autowired
     private OrderService orderService;
 
     @Autowired
     private UserRep userRep;
-    
+
     @Autowired
     private CartService cartService;
 
@@ -64,5 +63,21 @@ public class OrderController {
     public List<OrderEnt> getHistory(Authentication authentication) {
         UserEnt user = getCurrentUser(authentication);
         return orderService.getOrders(user);
+    }
+
+    @GetMapping("/{id}/items")
+    public ResponseEntity<?> getOrderItems(
+            @PathVariable Long id,
+            Authentication authentication) {
+
+        UserEnt user = getCurrentUser(authentication);
+        OrderEnt order = orderService.getOrderById(id);
+
+        // czy to zamówienie należy do tego usera?
+        if (!order.getUser().getId().equals(user.getId())) {
+            return ResponseEntity.status(403).body("Brak dostępu");
+        }
+
+        return ResponseEntity.ok(order.getItems());
     }
 }
