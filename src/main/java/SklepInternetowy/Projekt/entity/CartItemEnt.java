@@ -10,14 +10,14 @@ public class CartItemEnt {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // do jakiego koszyka należy
     @ManyToOne
     @JoinColumn(name = "cart_id", nullable = false)
     private CartEnt cart;
 
-    // nazwa produktu (na razie prosto)
-    @Column(nullable = false)
-    private String productName;
+    // ZMIANA: zamiast productName → referencja do produktu
+    @ManyToOne
+    @JoinColumn(name = "product_id", nullable = false)
+    private ProductEnt product;
 
     @Column(nullable = false)
     private double price;
@@ -25,55 +25,33 @@ public class CartItemEnt {
     @Column(nullable = false)
     private int quantity;
 
-    public CartItemEnt() {
-    }
+    public CartItemEnt() {}
 
-    public CartItemEnt(CartEnt cart, String productName, double price, int quantity) {
+    public CartItemEnt(CartEnt cart, ProductEnt product, double price, int quantity) {
         this.cart = cart;
-        this.productName = productName;
+        this.product = product;
         this.price = price;
         this.quantity = quantity;
     }
 
-    // GETTERY I SETTERY
+    // gettery i settery...
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public Long getId() {
-        return id;
-    }
+    public CartEnt getCart() { return cart; }
+    public void setCart(CartEnt cart) { this.cart = cart; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public ProductEnt getProduct() { return product; }
+    public void setProduct(ProductEnt product) { this.product = product; }
 
-    public CartEnt getCart() {
-        return cart;
-    }
+    public double getPrice() { return price; }
+    public void setPrice(double price) { this.price = price; }
 
-    public void setCart(CartEnt cart) {
-        this.cart = cart;
-    }
+    public int getQuantity() { return quantity; }
+    public void setQuantity(int quantity) { this.quantity = quantity; }
 
+    // pomocnicze — żeby frontend dalej widział nazwę
     public String getProductName() {
-        return productName;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+        return product != null ? product.getName() : "";
     }
 }

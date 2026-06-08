@@ -1,64 +1,125 @@
 package SklepInternetowy.Projekt.controller;
 
-import SklepInternetowy.Projekt.entity.CartEnt;
-import SklepInternetowy.Projekt.repository.CartRep;
+import SklepInternetowy.Projekt.entity.CartItemEnt;
+import SklepInternetowy.Projekt.entity.UserEnt;
+import SklepInternetowy.Projekt.repository.UserRep;
+import SklepInternetowy.Projekt.service.CartService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+
 
 @RestController
-@RequestMapping("/api/cart")
-@CrossOrigin(origins = "*")
+@RequestMapping("/cart")
 public class CartController {
 
-    private final CartRep cartRep;
+    @Autowired
+    private CartService cartService;
 
-    public CartController(CartRep cartRep) {
-        this.cartRep = cartRep;
+    @Autowired
+    private UserRep userRep;
+
+    // -------------------------------------------------------
+    // POMOCNICZA: pobierz usera z tokena JWT
+    // -------------------------------------------------------
+    // Spring Security po weryfikacji tokena wstrzykuje obiekt Authentication.
+    // authentication.getName() zwraca email usera (tak skonfigurowałeś JWT).
+    // Na tej podstawie pobieramy usera z bazy danych.
+    private UserEnt getCurrentUser(Authentication authentication) {
+        String email = authentication.getName();
+        return userRep.findByEmail(email).orElseThrow();
     }
 
-    //  CREATE
-    @PostMapping
-    public CartEnt createCart(@RequestBody CartEnt cart) {
-        return cartRep.save(cart);
-    }
-
-    // READ ALL
+    // -------------------------------------------------------
+    // GET /cart
+    // Zwraca zawartość koszyka zalogowanego usera
+    // -------------------------------------------------------
     @GetMapping
-    public List<CartEnt> getAllCarts() {
-        return cartRep.findAll();
+    public List<CartItemEnt> getCart(Authentication authentication) {
+        UserEnt user = getCurrentUser(authentication);
+        return cartService.getItems(user);
     }
 
-    // READ BY ID
-    @GetMapping("/{id}")
-    public CartEnt getCartById(@PathVariable Long id) {
-        return cartRep.findById(id)
-                .orElseThrow(() -> new RuntimeException("Cart nie istnieje"));
-    }
+    // -------------------------------------------------------
+    // POST /cart/add
+    // Dodaje produkt do koszyka
+    //
+    // Ciało żądania (JSON): { "productId": 1, "quantity": 2 }
+    // -------------------------------------------------------
+    @PostMapping("/add")
+    public ResponseEntity<String> addToCart(
+            @RequestBody Map<String, Object> body,
+            Authentication authentication) {
 
-    //  UPDATE
-    @PutMapping("/{id}")
-    public CartEnt updateCart(@PathVariable Long id,
-                              @RequestBody CartEnt updatedCart) {
+        // Wyciągamy dane z JSON-a
+        Long productId = Long.valueOf(body.get("productId").toString());
+        int quantity = Integer.parseInt(body.get("quantity").toString());
 
-        CartEnt cart = cartRep.findById(id)
-                .orElseThrow(() -> new RuntimeException("Cart nie istnieje"));
+        UserEnt user = getCurrentUser(authentication);
+        String result = cartService.addItem(productId, quantity, user);
 
-        cart.setUser(updatedCart.getUser());
-        cart.setCreatedAt(updatedCart.getCreatedAt());
-
-        return cartRep.save(cart);
-    }
-
-    //  DELETE
-    @DeleteMapping("/{id}")
-    public String deleteCart(@PathVariable Long id) {
-
-        if (!cartRep.existsById(id)) {
-            throw new RuntimeException("Cart nie istnieje");
+        if (result.equals("OK")) {
+            return ResponseEntity.ok("Dodano do koszyka");
+        } else {
+            // 400 Bad Request → coś poszło nie tak (np. brak w magazynie)
+            return ResponseEntity.badRequest().body(result);
         }
+    }
 
-        cartRep.deleteById(id);
-        return "Cart usunięty";
+    // -------------------------------------------------------
+    // PUT /cart/update/{itemId}
+    // Zmienia ilość produktu w koszyku
+    //
+    // Ciało żądania (JSON): { "quantity": 3 }
+    // -------------------------------------------------------
+    @PutMapping("/update/{itemId}")
+    public ResponseEntity<String> updateItem(
+            @PathVariable Long itemId,
+            @RequestBody Map<String, Object> body,
+            Authentication authentication) {
+
+        int newQuantity = Integer.parseInt(body.get("quantity").toString());
+        UserEnt user = getCurrentUser(authentication);
+        String result = cartService.updateQuantity(itemId, newQuantity, user);
+
+        if (result.equals("OK")) {
+            return ResponseEntity.ok("Zaktualizowano");
+        } else {
+            return ResponseEntity.badRequest().body(result);
+        }
+    }
+
+    // -------------------------------------------------------
+    // DELETE /cart/remove/{itemId}
+    // Usuwa jeden produkt z koszyka
+    // -------------------------------------------------------
+    @DeleteMapping("/remove/{itemId}")
+    public ResponseEntity<String> removeItem(
+            @PathVariable Long itemId,
+            Authentication authentication) {
+
+        UserEnt user = getCurrentUser(authentication);
+        String result = cartService.removeItem(itemId, user);
+
+        if (result.equals("OK")) {
+            return ResponseEntity.ok("Usunięto");
+        } else {
+            return ResponseEntity.badRequest().body(result);
+        }
+    }
+
+    // -------------------------------------------------------
+    // DELETE /cart/clear
+    // Czyści cały koszyk
+    // -------------------------------------------------------
+    @DeleteMapping("/clear")
+    public ResponseEntity<String> clearCart(Authentication authentication) {
+        UserEnt user = getCurrentUser(authentication);
+        cartService.clearCart(user);
+        return ResponseEntity.ok("Koszyk wyczyszczony");
     }
 }
