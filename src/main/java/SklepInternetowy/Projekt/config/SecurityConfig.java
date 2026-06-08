@@ -49,6 +49,7 @@ public class SecurityConfig {
                     "/pictures/*"
                 ).permitAll()
                 .requestMatchers("/cart/**").authenticated()
+                .requestMatchers("/ordershistory.html").authenticated()
                 .requestMatchers("/orders/**").authenticated()
                 // Wszystko inne wymaga tokenu
                 .anyRequest().authenticated()   
