@@ -169,5 +169,19 @@ async function clearCart() {
     }
 }
 
+async function placeOrder() {
+    const token = localStorage.getItem("token");
+
+    const response = await fetch("http://localhost:8080/orders/place", {
+        method: "POST",
+        headers: {
+            "Authorization": "Bearer " + token
+        }
+    });
+
+    const text = await response.text();
+    alert("zamówienie złożone"); // "Zamówienie złożone!" albo komunikat błędu
+}
+
 // Uruchom gdy strona się załaduje
 loadCart();

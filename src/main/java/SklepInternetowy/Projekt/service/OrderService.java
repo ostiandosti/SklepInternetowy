@@ -19,6 +19,9 @@ public class OrderService {
 
     @Autowired
     private OrderItemRep orderItemRep;
+    
+    @Autowired
+    private ProductRep productRep; // <-- NOWE: potrzebne do zapisu ilości
 
     // -------------------------------------------------------
     // Tworzy zamówienie z koszyka usera
@@ -31,6 +34,17 @@ public class OrderService {
         // 2. Jeśli koszyk jest pusty → błąd
         if (items.isEmpty()) {
             return "Koszyk jest pusty";
+        }
+        
+        // 3. NOWE: Sprawdź czy każdy produkt ma wystarczającą ilość w magazynie
+        //    Robimy to PRZED stworzeniem zamówienia — po co tworzyć zamówienie
+        //    jeśli i tak nie możemy go zrealizować?
+        for (CartItemEnt item : items) {
+            ProductEnt product = item.getProduct();
+            if (product.getQuantity() < item.getQuantity()) {
+                // Zwracamy błąd z nazwą produktu którego brakuje
+                return "Brak wystarczającej ilości produktu: " + product.getName();
+            }
         }
 
         // 3. Policz łączną cenę
@@ -52,6 +66,10 @@ public class OrderService {
                 item.getQuantity()
             );
             orderItemRep.save(orderItem);
+             // NOWE: odejmij zakupioną ilość od stanu magazynowego
+            ProductEnt product = item.getProduct();
+            product.setQuantity(product.getQuantity() - item.getQuantity());
+            productRep.save(product); // zapisz zmianę do bazy
         }
 
         // 6. Wyczyść koszyk
