@@ -44,10 +44,13 @@ public class SecurityConfig {
                     "/register.html",
                     "/*.html",      // wszystkie pliki HTML
                     "/css/*.css",       // wszystkie pliki CSS
-                    "/js/*.js"         // wszystkie pliki JavaScript
+                    "/js/*.js",         // wszystkie pliki JavaScript
+                    "/products/get",
+                    "/pictures/*"
                 ).permitAll()
+                .requestMatchers("/cart/**").authenticated() 
                 // Wszystko inne wymaga tokenu
-                .anyRequest().authenticated()
+                .anyRequest().authenticated()   
             )
 
             // Dodaj nasz filtr JWT PRZED domyślnym filtrem Spring Security
