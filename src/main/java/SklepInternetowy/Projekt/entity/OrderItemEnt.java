@@ -1,7 +1,7 @@
 package SklepInternetowy.Projekt.entity;
 
 import jakarta.persistence.*;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table(name = "order_items")
 public class OrderItemEnt {
@@ -10,7 +10,9 @@ public class OrderItemEnt {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // do jakiego zamówienia należy
+    
+
+    @JsonIgnore   
     @ManyToOne
     @JoinColumn(name = "order_id", nullable = false)
     private OrderEnt order;

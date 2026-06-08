@@ -2,6 +2,8 @@ package SklepInternetowy.Projekt.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "orders")
@@ -25,7 +27,12 @@ public class OrderEnt {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    public OrderEnt() {}
+    // dodaj to pole do klasy OrderEnt
+    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
+    private List<OrderItemEnt> items = new ArrayList<>();
+
+    public OrderEnt() {
+    }
 
     public OrderEnt(UserEnt user, double totalPrice, String status, LocalDateTime createdAt) {
         this.user = user;
@@ -35,7 +42,6 @@ public class OrderEnt {
     }
 
     // GETTERY I SETTERY
-
     public Long getId() {
         return id;
     }
@@ -74,5 +80,9 @@ public class OrderEnt {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public List<OrderItemEnt> getItems() {
+        return items;
     }
 }

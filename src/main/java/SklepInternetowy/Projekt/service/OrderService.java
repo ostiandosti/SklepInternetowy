@@ -19,7 +19,7 @@ public class OrderService {
 
     @Autowired
     private OrderItemRep orderItemRep;
-    
+
     @Autowired
     private ProductRep productRep; // <-- NOWE: potrzebne do zapisu ilości
 
@@ -35,7 +35,7 @@ public class OrderService {
         if (items.isEmpty()) {
             return "Koszyk jest pusty";
         }
-        
+
         // 3. NOWE: Sprawdź czy każdy produkt ma wystarczającą ilość w magazynie
         //    Robimy to PRZED stworzeniem zamówienia — po co tworzyć zamówienie
         //    jeśli i tak nie możemy go zrealizować?
@@ -60,13 +60,13 @@ public class OrderService {
         // 5. Dla każdej pozycji z koszyka → stwórz OrderItem i zapisz
         for (CartItemEnt item : items) {
             OrderItemEnt orderItem = new OrderItemEnt(
-                order,
-                item.getProduct().getName(),  // zapamiętujemy nazwę produktu
-                item.getPrice(),
-                item.getQuantity()
+                    order,
+                    item.getProduct().getName(), // zapamiętujemy nazwę produktu
+                    item.getPrice(),
+                    item.getQuantity()
             );
             orderItemRep.save(orderItem);
-             // NOWE: odejmij zakupioną ilość od stanu magazynowego
+            // NOWE: odejmij zakupioną ilość od stanu magazynowego
             ProductEnt product = item.getProduct();
             product.setQuantity(product.getQuantity() - item.getQuantity());
             productRep.save(product); // zapisz zmianę do bazy
@@ -83,5 +83,10 @@ public class OrderService {
     // -------------------------------------------------------
     public List<OrderEnt> getOrders(UserEnt user) {
         return orderRep.findByUser(user);
+    }
+
+    public OrderEnt getOrderById(Long id) {
+        return orderRep.findById(id)
+                .orElseThrow(() -> new RuntimeException("Zamówienie nie istnieje"));
     }
 }
