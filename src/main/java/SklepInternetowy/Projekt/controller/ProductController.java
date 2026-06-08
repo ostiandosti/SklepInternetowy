@@ -8,9 +8,17 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @RestController
 @RequestMapping("/products")
 public class ProductController {
+    
+    
+    private static final Logger log =
+            LoggerFactory.getLogger(ProductController.class);
+
 
     @Autowired
     private ProductRep productRep;
@@ -18,6 +26,7 @@ public class ProductController {
     // GET ALL
     @GetMapping("/get")
     public List<ProductEnt> getAllProducts() {
+        log.info("Pobrano liste wszystkich produtków /product/get");
         return productRep.findAll();
     }
 
