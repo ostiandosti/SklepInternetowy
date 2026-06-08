@@ -24,23 +24,18 @@ public class AuthController {
             authService.register(request);
             return ResponseEntity.ok(Map.of("message", "Użytkownik utworzony"));
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest()
-                    .body(Map.of("error", e.getMessage()));
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
         try {
-            authService.login(request);
-
-            return ResponseEntity.ok(
-                    Map.of("message", "Zalogowano")
-            );
-
+            String token = authService.login(request);
+            // Zwracamy token użytkownikowi — on go zapisze i będzie wysyłał przy każdym żądaniu
+            return ResponseEntity.ok(Map.of("token", token));
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest()
-                    .body(Map.of("error", e.getMessage()));
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }
     }
 }
