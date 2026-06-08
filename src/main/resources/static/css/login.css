@@ -1,0 +1,101 @@
+/* =========================
+   BACKGROUND (jak reszta sklepu)
+========================= */
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #6a0dad;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* =========================
+   LOGIN BOX
+========================= */
+
+.box {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+    width: 320px;
+    text-align: center;
+}
+
+/* tytuł */
+.box h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* =========================
+   INPUTY
+========================= */
+
+.box input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 5px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    outline: none;
+    font-size: 14px;
+}
+
+.box input:focus {
+    border-color: #6a0dad;
+}
+
+/* =========================
+   ERROR POD INPUTEM
+========================= */
+
+.field-error {
+    color: red;
+    font-size: 12px;
+    margin-bottom: 10px;
+    text-align: left;
+    min-height: 14px;
+}
+
+/* =========================
+   BUTTON LOGIN
+========================= */
+
+.box button {
+    width: 100%;
+    padding: 10px;
+    background-color: #6a0dad;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.box button:hover {
+    background-color: #520b8a;
+}
+
+/* =========================
+   SWITCH (rejestracja)
+========================= */
+
+.switch {
+    margin-top: 15px;
+    font-size: 13px;
+    color: #333;
+}
+
+.switch span {
+    color: #6a0dad;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.switch span:hover {
+    text-decoration: underline;
+}

@@ -142,6 +142,38 @@ h1 {
     color: #111;
 }
 
+.clear-btn {
+    padding: 10px 14px;
+    background-color: #e53935;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+.clear-btn:hover {
+    background-color: #c62828;
+}
+
+.back-btn {
+    padding: 10px 14px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+.back-btn:hover {
+    background-color: #555;
+}
+
 .checkout-btn {
     width: 100%;
     margin-top: 30px;
