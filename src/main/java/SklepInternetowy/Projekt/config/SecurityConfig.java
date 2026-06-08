@@ -38,7 +38,13 @@ public class SecurityConfig {
                     "/api/auth/register",
                     "/api/auth/login",
                     "/swagger-ui/**",
-                    "/v3/api-docs/**"
+                    "/v3/api-docs/**",
+                    "/main.html",
+                    "/login.html",
+                    "/register.html",
+                    "/*.html",      // wszystkie pliki HTML
+                    "/css/*.css",       // wszystkie pliki CSS
+                    "/js/*.js"         // wszystkie pliki JavaScript
                 ).permitAll()
                 // Wszystko inne wymaga tokenu
                 .anyRequest().authenticated()
