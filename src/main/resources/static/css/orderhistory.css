@@ -1,0 +1,63 @@
+/* =========================
+   ORDERS PAGE
+========================= */
+
+.orders-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* pojedyncze zamówienie */
+.order-card {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* nagłówek zamówienia */
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+/* ID zamówienia */
+.order-header span:first-child {
+    font-weight: bold;
+    color: #333;
+}
+
+/* status badge */
+.status {
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    color: white;
+    text-transform: uppercase;
+}
+
+/* STATUSY */
+.status.NEW {
+    background-color: #ff9800;
+}
+
+.status.DONE {
+    background-color: #4caf50;
+}
+
+.status.CANCELLED {
+    background-color: #f44336;
+}
+
+/* tekst w zamówieniu */
+.order-card p {
+    margin: 5px 0;
+    color: #333;
+}
