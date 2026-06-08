@@ -127,6 +127,22 @@ function setupCartButton() {
         window.location.href = "/cart.html";
     });
 }
+function setupAvatarDropdown() {
+    const avatar = document.getElementById("avatarBtn");
+    const dropdown = document.getElementById("avatarDropdown");
+
+    if (!avatar || !dropdown) return;
+
+    avatar.addEventListener("click", (e) => {
+        e.stopPropagation();
+        dropdown.style.display =
+            dropdown.style.display === "block" ? "none" : "block";
+    });
+
+    document.addEventListener("click", () => {
+        dropdown.style.display = "none";
+    });
+}
 
 // =========================
 // INIT (NAJWAŻNIEJSZE)
@@ -136,4 +152,5 @@ document.addEventListener("DOMContentLoaded", () => {
     loadProducts();
     updateAuthUI();
     setupCartButton();
+    setupAvatarDropdown();
 });
