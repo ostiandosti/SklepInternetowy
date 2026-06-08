@@ -5,23 +5,33 @@
     <meta charset="UTF-8">
     <title>Produkty</title>
     <link rel="stylesheet" href="/css/main.css">
+
+    <!-- JS na końcu DOM (defer zostaje, ale i tak mamy DOMContentLoaded w JS) -->
     <script src="/js/main.js" defer></script>
 </head>
 
 <body>
 
+    <!-- NAVBAR -->
     <div class="navbar">
         <h1>Lista produktów</h1>
 
         <div class="nav-right">
-            <button id="cartBtn" class="cart-btn">Pokaż koszyk 🛒</button>
 
-            <a href="login.html" id="authBtn" class="auth-btn">Zaloguj się</a>
+            <button id="cartBtn" class="cart-btn">
+                Pokaż koszyk 🛒
+            </button>
+
+            <a id="authBtn" class="auth-btn" href="/login.html">
+                Zaloguj się
+            </a>
 
             <div class="avatar">👤</div>
+
         </div>
     </div>
 
+    <!-- PRODUKTY -->
     <div id="products"></div>
 
 </body>

@@ -11,90 +11,129 @@ function authHeaders() {
     };
 }
 
+// =========================
+// PRODUCTS
+// =========================
 
 async function loadProducts() {
-    const response = await fetch(API + "/products/get");
-    const products = await response.json();
     const container = document.getElementById("products");
+    if (!container) return;
 
-    products.forEach(product => {
-        container.innerHTML += `
-            <div class="product">
-                <h2>${product.name}</h2>
-                <img src="${API}/pictures/${product.imageUrl}" alt="${product.name}">
-                <p><strong>Opis:</strong> ${product.description}</p>
-                <p><strong>Cena:</strong> ${product.price} zł</p>
-                <p><strong>Dostępne:</strong> ${product.quantity} szt.</p>
-                <button class="add-to-cart" onclick="addToCart(${product.id})">
-                    Dodaj do koszyka
-                </button>
-            </div>
-        `;
-    });
+    try {
+        const response = await fetch(API + "/products/get");
+        const products = await response.json();
+
+        container.innerHTML = "";
+
+        products.forEach(product => {
+            container.innerHTML += `
+                <div class="product">
+                    <h2>${product.name}</h2>
+                    <img src="${API}/pictures/${product.imageUrl}" alt="${product.name}">
+                    <p><strong>Opis:</strong> ${product.description}</p>
+                    <p><strong>Cena:</strong> ${product.price} zł</p>
+                    <p><strong>Dostępne:</strong> ${product.quantity} szt.</p>
+                    <button class="add-to-cart" onclick="addToCart(${product.id})">
+                        Dodaj do koszyka
+                    </button>
+                </div>
+            `;
+        });
+
+    } catch (err) {
+        console.error("Błąd ładowania produktów:", err);
+    }
 }
-loadProducts();
 
-document.querySelector(".cart-btn").addEventListener("click", () => {
-    window.location.href = "cart.html";
-});
+// =========================
+// CART
+// =========================
 
-// -------------------------------------------------------
-// Dodaj produkt do koszyka
-// Wysyła POST /cart/add z id produktu i ilością = 1
-// -------------------------------------------------------
 async function addToCart(productId) {
-    // Sprawdź czy user jest zalogowany
     if (!getToken()) {
         alert("Musisz się zalogować żeby dodać do koszyka!");
-        window.location.href = "login.html";
+        window.location.href = "/login.html";
         return;
     }
 
-    const response = await fetch(API + "/cart/add", {
-        method: "POST",
-        headers: authHeaders(),
-        body: JSON.stringify({
-            productId: productId,
-            quantity: 1          // zawsze dodajemy 1 sztukę
-        })
-    });
+    try {
+        const response = await fetch(API + "/cart/add", {
+            method: "POST",
+            headers: authHeaders(),
+            body: JSON.stringify({
+                productId: productId,
+                quantity: 1
+            })
+        });
 
-    if (response.ok) {
-        alert("Dodano do koszyka!");
-    } else {
-        const msg = await response.text();
-        alert("Błąd: " + msg); // np. brak w magazynie
+        if (response.ok) {
+            alert("Dodano do koszyka!");
+        } else {
+            const msg = await response.text();
+            alert("Błąd: " + msg);
+        }
+
+    } catch (err) {
+        console.error("Błąd koszyka:", err);
     }
 }
 
 // =========================
-// AUTH SYSTEM
+// AUTH UI
 // =========================
 
 function updateAuthUI() {
-    const user = localStorage.getItem("user");
+    const token = getToken();
     const authBtn = document.getElementById("authBtn");
     const avatar = document.querySelector(".avatar");
 
-    if (user) {
+    if (!authBtn) return;
+
+    if (token) {
         authBtn.innerText = "Wyloguj się";
         authBtn.href = "#";
 
-        avatar.innerText = "👤 " + user.split("@")[0];
+        if (avatar) avatar.innerText = "👤";
 
-        authBtn.addEventListener("click", (e) => {
+        authBtn.onclick = (e) => {
             e.preventDefault();
 
-            localStorage.removeItem("user");
+            localStorage.removeItem("token");
+
+            alert("Wylogowano pomyślnie");
             window.location.href = "/login.html";
-        });
+        };
 
     } else {
         authBtn.innerText = "Zaloguj się";
         authBtn.href = "/login.html";
 
-        avatar.innerText = "👤";
+        if (avatar) avatar.innerText = "👤";
+
+        authBtn.onclick = null;
     }
 }
 
-updateAuthUI();
+// =========================
+// NAVIGATION
+// =========================
+
+function setupCartButton() {
+    const btn = document.querySelector(".cart-btn");
+
+    if (!btn) return;
+
+    btn.addEventListener("click", () => {
+        window.location.href = "/cart.html";
+    });
+}
+
+// =========================
+// INIT (NAJWAŻNIEJSZE)
+// =========================
+
+document.addEventListener("DOMContentLoaded", () => {
+    loadProducts();
+    updateAuthUI();
+    setupCartButton();
+});

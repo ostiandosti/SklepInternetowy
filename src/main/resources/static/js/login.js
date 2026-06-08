@@ -28,6 +28,7 @@ document.getElementById("loginForm").addEventListener("submit", async function (
         // ✅ Serwer zwraca { "token": "eyJ..." }
         // Zapisujemy token — będziemy go wysyłać przy każdym kolejnym żądaniu
         localStorage.setItem("token", data.token);
+        
 
         window.location.href = "/main.html";
 
