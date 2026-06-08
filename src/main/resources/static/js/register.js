@@ -30,7 +30,7 @@ document.getElementById("registerForm").addEventListener("submit", async functio
         }
 
         // Sukces — przenosimy na stronę logowania
-        window.location.href = "frontend/login.html";
+        window.location.href = "/login.html";
 
     } catch (error) {
         // Ten błąd oznacza że serwer w ogóle nie odpowiedział
