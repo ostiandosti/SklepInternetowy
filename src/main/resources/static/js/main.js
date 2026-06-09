@@ -113,6 +113,7 @@ function updateAuthUI() {
             e.preventDefault();
 
             localStorage.removeItem("token");
+            localStorage.removeItem("role");
 
             alert("Wylogowano pomyślnie");
             window.location.href = "/login.html";
