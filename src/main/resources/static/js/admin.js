@@ -1,5 +1,22 @@
 let editingId = null;
 
+// Zanim strona się załaduje sprawdź czy użytkownik to admin
+const role = localStorage.getItem("role");
+const token = localStorage.getItem("token");
+
+if (!token || role !== "ADMIN") {
+    // Nie admin — wyrzuć na stronę główną
+    window.location.href = "main.html";
+}
+
+// Helper — zwraca nagłówki z tokenem
+function authHeaders() {
+    return {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + localStorage.getItem("token")
+    };
+}
+
 const API = "http://localhost:8080/products";
 
 // =====================
@@ -16,8 +33,8 @@ async function loadProducts() {
 // =====================
 // ADD
 // =====================
+// ADD
 async function addProduct() {
-
     const product = {
         name: document.getElementById("name").value,
         description: document.getElementById("description").value,
@@ -28,14 +45,13 @@ async function addProduct() {
 
     await fetch(API, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: authHeaders(), // ✅ token
         body: JSON.stringify(product)
     });
 
     clearForm();
     loadProducts();
 }
-
 function clearForm() {
     document.getElementById("name").value = "";
     document.getElementById("description").value = "";
@@ -75,7 +91,7 @@ function render(products) {
                 ? `<button onclick="startEdit(${p.id})">Edytuj</button>`
                 : `<button onclick="saveEdit(${p.id})">Zapisz</button>
                    <button onclick="cancelEdit()">Anuluj</button>`
-            }
+                }
 
                 <button onclick="deleteProduct(${p.id})">Usuń</button>
             </div>
@@ -101,10 +117,10 @@ function cancelEdit() {
 // =====================
 // SAVE (FIXED - ID INCLUDED)
 // =====================
+// SAVE EDIT
 async function saveEdit(id) {
-
     const updated = {
-        id: id, // 🔥 KLUCZOWY FIX
+        id: id,
         name: document.getElementById(`name-${id}`).value,
         description: document.getElementById(`desc-${id}`).value,
         price: document.getElementById(`price-${id}`).value,
@@ -114,12 +130,11 @@ async function saveEdit(id) {
 
     await fetch(`${API}/${id}`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: authHeaders(), // ✅ token
         body: JSON.stringify(updated)
     });
 
     saveRecent(id, updated.name);
-
     editingId = null;
     loadProducts();
 }
@@ -127,9 +142,11 @@ async function saveEdit(id) {
 // =====================
 // DELETE
 // =====================
+// DELETE
 async function deleteProduct(id) {
     await fetch(`${API}/${id}`, {
-        method: "DELETE"
+        method: "DELETE",
+        headers: authHeaders() // ✅ token
     });
 
     loadProducts();
@@ -158,17 +175,18 @@ function saveRecent(id, name) {
 function renderRecent() {
 
     const box = document.getElementById("recentBar");
-    if (!box) return;
+    if (!box)
+        return;
 
     const recent = JSON.parse(localStorage.getItem("recent") || "[]");
 
     box.innerHTML = recent.length
-        ? recent.map(r => `
+            ? recent.map(r => `
             <div class="recent-item" onclick="goToProduct(${r.id})">
                 ${r.name} • ${r.time}
             </div>
         `).join("")
-        : "🟡 brak ostatnich edycji";
+            : "🟡 brak ostatnich edycji";
 }
 
 // =====================
@@ -177,9 +195,10 @@ function renderRecent() {
 function goToProduct(id) {
 
     const el = document.getElementById(`product-${id}`);
-    if (!el) return;
+    if (!el)
+        return;
 
-    el.scrollIntoView({ behavior: "smooth", block: "center" });
+    el.scrollIntoView({behavior: "smooth", block: "center"});
 
     el.classList.add("highlight");
 

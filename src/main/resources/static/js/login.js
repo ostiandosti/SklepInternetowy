@@ -2,19 +2,26 @@ document.getElementById("loginForm").addEventListener("submit", async function (
     e.preventDefault();
     clearFieldErrors();
 
-    const email    = document.getElementById("email").value.trim();
+    const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value;
 
     let hasError = false;
-    if (!email)    { setFieldError("emailError",    "Podaj email");  hasError = true; }
-    if (!password) { setFieldError("passwordError", "Podaj hasło"); hasError = true; }
-    if (hasError) return;
+    if (!email) {
+        setFieldError("emailError", "Podaj email");
+        hasError = true;
+    }
+    if (!password) {
+        setFieldError("passwordError", "Podaj hasło");
+        hasError = true;
+    }
+    if (hasError)
+        return;
 
     try {
         const response = await fetch("http://localhost:8080/api/auth/login", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email, password })
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({email, password})
         });
 
         const data = await response.json().catch(() => null);
@@ -28,10 +35,14 @@ document.getElementById("loginForm").addEventListener("submit", async function (
         // ✅ Serwer zwraca { "token": "eyJ..." }
         // Zapisujemy token — będziemy go wysyłać przy każdym kolejnym żądaniu
         localStorage.setItem("token", data.token);
-        
+        localStorage.setItem("role", data.role);
 
-        window.location.href = "/main.html";
 
+        if (data.role === "ADMIN") {
+            window.location.href = "admin.html";
+        } else {
+            window.location.href = "main.html";
+        }
     } catch (error) {
         setFieldError("emailError", "Błąd połączenia z serwerem");
     }

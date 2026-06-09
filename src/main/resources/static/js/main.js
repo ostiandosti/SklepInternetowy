@@ -17,7 +17,8 @@ function authHeaders() {
 
 async function loadProducts() {
     const container = document.getElementById("products");
-    if (!container) return;
+    if (!container)
+        return;
 
     try {
         const response = await fetch(API + "/products/get");
@@ -98,13 +99,15 @@ function updateAuthUI() {
     const authBtn = document.getElementById("authBtn");
     const avatar = document.querySelector(".avatar");
 
-    if (!authBtn) return;
+    if (!authBtn)
+        return;
 
     if (token) {
         authBtn.innerText = "Wyloguj się";
         authBtn.href = "#";
 
-        if (avatar) avatar.innerText = "👤";
+        if (avatar)
+            avatar.innerText = "👤";
 
         authBtn.onclick = (e) => {
             e.preventDefault();
@@ -119,7 +122,8 @@ function updateAuthUI() {
         authBtn.innerText = "Zaloguj się";
         authBtn.href = "/login.html";
 
-        if (avatar) avatar.innerText = "👤";
+        if (avatar)
+            avatar.innerText = "👤";
 
         authBtn.onclick = null;
     }
@@ -132,7 +136,8 @@ function updateAuthUI() {
 function setupCartButton() {
     const btn = document.querySelector(".cart-btn");
 
-    if (!btn) return;
+    if (!btn)
+        return;
 
     btn.addEventListener("click", () => {
         window.location.href = "/cart.html";
@@ -142,12 +147,13 @@ function setupAvatarDropdown() {
     const avatar = document.getElementById("avatarBtn");
     const dropdown = document.getElementById("avatarDropdown");
 
-    if (!avatar || !dropdown) return;
+    if (!avatar || !dropdown)
+        return;
 
     avatar.addEventListener("click", (e) => {
         e.stopPropagation();
         dropdown.style.display =
-            dropdown.style.display === "block" ? "none" : "block";
+                dropdown.style.display === "block" ? "none" : "block";
     });
 
     document.addEventListener("click", () => {
