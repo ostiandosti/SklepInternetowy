@@ -3,6 +3,7 @@ package SklepInternetowy.Projekt.config;
 import SklepInternetowy.Projekt.service.JwtFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -24,40 +25,41 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable())
-
-            // STATELESS = serwer nie przechowuje sesji
-            // Każde żądanie musi samo udowodnić kim jest (przez token)
-            .sessionManagement(session ->
-                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            )
-
-            .authorizeHttpRequests(auth -> auth
+                .csrf(csrf -> csrf.disable())
+                // STATELESS = serwer nie przechowuje sesji
+                // Każde żądanie musi samo udowodnić kim jest (przez token)
+                .sessionManagement(session
+                        -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
+                .authorizeHttpRequests(auth -> auth
                 // Te endpointy są publiczne — nie wymagają tokenu
                 .requestMatchers(
-                    "/api/auth/register",
-                    "/api/auth/login",
-                    "/swagger-ui/**",
-                    "/v3/api-docs/**",
-                    "/main.html",
-                    "/login.html",
-                    "/register.html",
-                    "/*.html",      // wszystkie pliki HTML
-                    "/css/*.css",       // wszystkie pliki CSS
-                    "/js/*.js",         // wszystkie pliki JavaScript
-                    "/products/get",
-                    "/pictures/*"
+                        "/api/auth/register",
+                        "/api/auth/login",
+                        "/swagger-ui/**",
+                        "/v3/api-docs/**",
+                        "/main.html",
+                        "/login.html",
+                        "/register.html",
+                        "/*.html", // wszystkie pliki HTML
+                        "/css/*.css", // wszystkie pliki CSS
+                        "/js/*.js", // wszystkie pliki JavaScript
+                        "/products/get",
+                        "/pictures/*"
                 ).permitAll()
                 .requestMatchers("/cart/**").authenticated()
                 .requestMatchers("/ordershistory.html").authenticated()
                 .requestMatchers("/orders/**").authenticated()
+                .requestMatchers("/admin.html","/css/admin.css","/js/admin.js").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.POST, "/products").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/products/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/products/**").hasRole("ADMIN")
                 // Wszystko inne wymaga tokenu
-                .anyRequest().authenticated()   
-            )
-
-            // Dodaj nasz filtr JWT PRZED domyślnym filtrem Spring Security
-            // Kolejność ma znaczenie — najpierw sprawdzamy JWT
-            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+                .anyRequest().authenticated()
+                )
+                // Dodaj nasz filtr JWT PRZED domyślnym filtrem Spring Security
+                // Kolejność ma znaczenie — najpierw sprawdzamy JWT
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

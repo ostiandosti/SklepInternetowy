@@ -59,6 +59,6 @@ public class AuthService {
         }
 
         // Wygeneruj token i zwróć go — to jest nowość!
-        return jwtService.generateToken(user.getEmail());
+        return jwtService.generateToken(user.getEmail(), user.getRole());
     }
 }
