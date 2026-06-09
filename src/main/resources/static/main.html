@@ -6,7 +6,6 @@
     <title>Produkty</title>
     <link rel="stylesheet" href="/css/main.css">
 
-    <!-- JS na końcu DOM (defer zostaje, ale i tak mamy DOMContentLoaded w JS) -->
     <script src="/js/main.js" defer></script>
 </head>
 
@@ -27,11 +26,23 @@
             </a>
 
             <div class="avatar-wrapper">
-            <div class="avatar" id="avatarBtn">👤</div>
 
-            <div class="dropdown" id="avatarDropdown">
-                <a href="/ordershistory.html">Historia zamówień</a>
-            </div>
+                <div class="avatar" id="avatarBtn">👤</div>
+
+                <div class="dropdown" id="avatarDropdown">
+
+                    <a href="/ordershistory.html">
+                        Historia zamówień
+                    </a>
+
+                    <a id="adminLink"
+                       href="/admin.html"
+                       style="display:none;">
+                        Panel admina
+                    </a>
+
+                </div>
+
             </div>
 
         </div>

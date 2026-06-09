@@ -129,3 +129,22 @@ button:hover {
     outline: 3px solid #6a0dad;
     box-shadow: 0 0 20px rgba(106,13,173,0.5);
 }
+.admin-topbar {
+    background: #222;
+    padding: 15px;
+    display: flex;
+    gap: 10px;
+}
+
+.admin-topbar button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 6px;
+    background: #6a0dad;
+    color: white;
+    cursor: pointer;
+}
+
+.admin-topbar button:hover {
+    background: #520b8a;
+}

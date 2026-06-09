@@ -96,13 +96,21 @@ async function addToCart(productId) {
 
 function updateAuthUI() {
     const token = getToken();
+    const role = localStorage.getItem("role");
+
     const authBtn = document.getElementById("authBtn");
     const avatar = document.querySelector(".avatar");
+    const adminLink = document.getElementById("adminLink");
 
     if (!authBtn)
         return;
 
     if (token) {
+
+        if (role === "ADMIN" && adminLink) {
+            adminLink.style.display = "block";
+        }
+
         authBtn.innerText = "Wyloguj się";
         authBtn.href = "#";
 
@@ -120,6 +128,11 @@ function updateAuthUI() {
         };
 
     } else {
+
+        if (adminLink) {
+            adminLink.style.display = "none";
+        }
+
         authBtn.innerText = "Zaloguj się";
         authBtn.href = "/login.html";
 

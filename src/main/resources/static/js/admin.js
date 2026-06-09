@@ -4,6 +4,17 @@ let editingId = null;
 const role = localStorage.getItem("role");
 const token = localStorage.getItem("token");
 
+function logout() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+
+    window.location.href = "login.html";
+}
+
+function goToMain() {
+    window.location.href = "main.html";
+}
+
 if (!token || role !== "ADMIN") {
     // Nie admin — wyrzuć na stronę główną
     window.location.href = "main.html";
