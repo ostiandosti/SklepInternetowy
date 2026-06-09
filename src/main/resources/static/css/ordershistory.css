@@ -30,6 +30,11 @@ body {
     gap: 15px;
 }
 
+.navbar-logo {
+    height: 100px; /* dostosuj rozmiar */
+    width: auto;
+}
+
 /* przycisk powrotu (styl jak auth-btn) */
 .auth-btn {
     color: white;

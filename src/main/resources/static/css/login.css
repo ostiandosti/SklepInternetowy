@@ -12,6 +12,18 @@ body {
     height: 100vh;
 }
 
+.auth-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logo {
+    width: 150px; /* dostosuj rozmiar */
+    height: auto;
+    margin-bottom: 20px;
+}
+
 /* =========================
    LOGIN BOX
 ========================= */

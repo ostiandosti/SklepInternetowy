@@ -25,6 +25,11 @@ body {
     gap: 15px;
 }
 
+.navbar-logo {
+    height: 100px;
+    width: auto;
+}
+
 /* koszyk */
 .cart-btn {
     padding: 8px 12px;
