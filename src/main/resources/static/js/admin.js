@@ -8,7 +8,7 @@ const API = "http://localhost:8080/products";
 async function loadProducts() {
     const res = await fetch(`${API}/get`);
     const products = await res.json();
-
+    products.sort((a, b) => a.id - b.id);
     render(products);
     renderRecent();
 }

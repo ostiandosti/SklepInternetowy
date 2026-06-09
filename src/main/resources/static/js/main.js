@@ -22,22 +22,33 @@ async function loadProducts() {
     try {
         const response = await fetch(API + "/products/get");
         const products = await response.json();
+        products.sort((a, b) => a.id - b.id);
 
         container.innerHTML = "";
 
         products.forEach(product => {
             container.innerHTML += `
-                <div class="product">
-                    <h2>${product.name}</h2>
-                    <img src="${API}/pictures/${product.imageUrl}" alt="${product.name}">
-                    <p><strong>Opis:</strong> ${product.description}</p>
-                    <p><strong>Cena:</strong> ${product.price} zł</p>
-                    <p><strong>Dostępne:</strong> ${product.quantity} szt.</p>
-                    <button class="add-to-cart" onclick="addToCart(${product.id})">
-                        Dodaj do koszyka
-                    </button>
-                </div>
-            `;
+<div class="product"
+     style="--bg-image:url('${API}/pictures/${product.imageUrl}')">
+
+    <div class="product-image">
+        <img src="${API}/pictures/${product.imageUrl}" alt="${product.name}">
+    </div>
+
+    <div class="product-content">
+        <h2>${product.name}</h2>
+        <p><strong>Opis:</strong> ${product.description}</p>
+        <p><strong>Cena:</strong> ${product.price} zł</p>
+        <p><strong>Dostępne:</strong> ${product.quantity} szt.</p>
+
+        <button class="add-to-cart"
+                onclick="addToCart(${product.id})">
+            Dodaj do koszyka
+        </button>
+    </div>
+
+</div>
+`;
         });
 
     } catch (err) {

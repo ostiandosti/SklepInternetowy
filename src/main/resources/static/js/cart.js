@@ -48,6 +48,7 @@ async function loadCart() {
     }
 
     const items = await response.json();
+    items.sort((a, b) => a.id - b.id);
     renderCart(items);
 }
 
